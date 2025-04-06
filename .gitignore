@@ -1,0 +1,40 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.cache
+
+# Build outputs
+bin/
+obj/
+*.pdb
+*.exe
+*.dll
+*.log
+
+# NuGet packages
+packages/
+*.nupkg
+project.lock.json
+global.json
+.nuget/
+
+# Rider and ReSharper
+.idea/
+*.sln.iml
+_ReSharper*/
+*.DotSettings.user
+
+# Publish outputs
+publish/
+app.publish/
+*.publish.xml
+
+# Other
+*.tmp
+*.bak
+*.swp
+*.swo
+*.log

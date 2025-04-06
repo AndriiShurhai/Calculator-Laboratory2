@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\WpfApp1.csproj",
-      "projectName": "WpfApp1",
-      "projectPath": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\WpfApp1.csproj",
+      "projectUniqueName": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\Calculator.csproj",
+      "projectName": "Calculator",
+      "projectPath": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\Calculator.csproj",
       "packagesPath": "C:\\Users\\it25102024\\.nuget\\packages\\",
       "outputPath": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\obj\\",
       "projectStyle": "PackageReference",
