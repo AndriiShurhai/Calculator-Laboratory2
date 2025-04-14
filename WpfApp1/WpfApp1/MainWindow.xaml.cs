@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CalculatorProject
 {
@@ -39,6 +40,41 @@ namespace CalculatorProject
             {
                 HandleNumberInput((e.Key - Key.D0).ToString());
                 return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Add:
+                    OperationButton_Click(buttonPlus, new RoutedEventArgs(null, null));
+                    break;
+                case Key.Subtract:
+                    MessageBox.Show("Substract");
+                    break;
+                case Key.Multiply:
+                    MessageBox.Show("Multiply");
+                    break;
+                case Key.Divide:
+                    MessageBox.Show("Divide");
+                    break;
+                case Key.Enter:
+                    MessageBox.Show("Equals");
+                    break;
+                case Key.OemPlus:
+                    if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+                        MessageBox.Show("Addition");
+                    else
+                        MessageBox.Show("Equals");
+                        break;
+                case Key.Escape:
+                    ClearButton_Click(buttonC, new RoutedEventArgs());
+                    break;
+                case Key.Back:
+                    EraseSymbol_Click(button_Backspace, new RoutedEventArgs());
+                    break;
+                case Key.OemPeriod:
+                case Key.Decimal:
+                    DecimalButton_Click(buttonDecimal, new RoutedEventArgs());
+                    break;
             }
         }
 
@@ -73,7 +109,7 @@ namespace CalculatorProject
                 }
             }
 
-            if (double.TryParse(number, out double parseResult))
+            if (double.TryParse(_calculator.DisplayText, out double parseResult))
             {
                 _calculator.CurrentValue = parseResult;
             }
@@ -85,6 +121,20 @@ namespace CalculatorProject
             UpdateDisplay();
         }
 
+        private void MinusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_calculator.IsNewInput || _calculator.DisplayText == "0")
+            {
+                _calculator.DisplayText = "-";
+                _calculator.IsNewInput = false;
+            }
+            else
+            {
+                OperationButton_Click(sender, e);
+            }
+            UpdateDisplay();
+        }
+
         private void DecimalButton_Click(object sender, RoutedEventArgs e)
         {
             if (_calculator.IsNewInput)
@@ -92,16 +142,99 @@ namespace CalculatorProject
                 _calculator.DisplayText = "0.";
                 _calculator.IsNewInput = false;
             }
-            else if (_calculator.DisplayText.Contains("."))
+            else if (!_calculator.DisplayText.Contains('.'))
             {
-               return;
+                _calculator.DisplayText += '.';
+            }
+
+            if (double.TryParse(_calculator.DisplayText, out double parseResult))
+            {
+                _calculator.CurrentValue = parseResult;
             }
 
             UpdateDisplay();
         }
+
+        private void OperationButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(_calculator.PendingOperation) || !_calculator.IsNewInput)
+            {
+                EqualsButton_Click(null, null);
+            }
+
+            _calculator.PreviousValue = _calculator.CurrentValue;
+            _calculator.PendingOperation = ((Button)sender).Tag.ToString();
+            _calculator.IsNewInput = true;
+        }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             _calculator.Clear();
+            UpdateDisplay();
+        }
+
+        private void EqualsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_calculator.PendingOperation))
+                return;
+
+            double previousValue = _calculator.PreviousValue;
+            double currentValue = _calculator.CurrentValue;
+            string operation = _calculator.PendingOperation;
+            double result = 0;
+
+            switch (operation)
+            {
+                case "+":
+                    result = previousValue + currentValue;
+                    break;
+                case "-":
+                    result = previousValue - currentValue;
+                    break;
+                case "*":
+                    result = previousValue * currentValue;
+                    break;
+                case "/":
+                    result = previousValue / currentValue;
+                    break;
+            }
+
+            ICommand command = new CalculationCommand(_calculator, previousValue, currentValue, operation, result);
+            command.Execute();
+
+            _undoStack.Push(command);
+            _redoStack.Clear();
+
+            _calculator.PendingOperation = "";
+            _calculator.IsNewInput = true;
+
+            UpdateDisplay();
+        }
+        private void EraseSymbol_Click(object sender, RoutedEventArgs e)
+        {
+            if (_calculator.IsNewInput || string.IsNullOrEmpty(_calculator.DisplayText))
+            {
+                return;
+            }
+
+            if (_calculator.DisplayText.Length > 1)
+            {
+                _calculator.DisplayText = _calculator.DisplayText.Remove(_calculator.DisplayText.Length - 1);
+            }
+            else
+            {
+                _calculator.DisplayText = "0";
+                _calculator.IsNewInput = true;
+            }
+
+            if (double.TryParse(_calculator.DisplayText, out double parseResult))
+            {
+                _calculator.CurrentValue = parseResult;
+            }
+            else
+            {
+                _calculator.CurrentValue = 0;
+            }
+
             UpdateDisplay();
         }
 
