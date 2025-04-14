@@ -35,10 +35,77 @@ namespace CalculatorProject
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            MessageBox.Show("key pressed");
+            if (e.Key >= Key.D0 && e.Key <= Key.D9)
+            {
+                HandleNumberInput((e.Key - Key.D0).ToString());
+                return;
+            }
         }
 
-        private void ToggleAdvancedPanelClick(object sender, RoutedEventArgs e)
+        private void NumberButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            string? number = button.Content.ToString();
+            HandleNumberInput(number);
+        }
+
+        private void HandleNumberInput(string? number)
+        {
+            if (number == null)
+            {
+                MessageBox.Show("Number in HandleNumberInput method is null");
+                return;
+            }
+            if (_calculator.IsNewInput)
+            {
+                _calculator.DisplayText = number;
+                _calculator.IsNewInput = false;
+            }
+            else
+            {
+                if (_calculator.DisplayText == "0")
+                {
+                    _calculator.DisplayText = number;
+                }
+                else
+                {
+                    _calculator.DisplayText += number;
+                }
+            }
+
+            if (double.TryParse(number, out double parseResult))
+            {
+                _calculator.CurrentValue = parseResult;
+            }
+            else
+            {
+                MessageBox.Show("Can't parse this number");
+                return;
+            }
+            UpdateDisplay();
+        }
+
+        private void DecimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_calculator.IsNewInput)
+            {
+                _calculator.DisplayText = "0.";
+                _calculator.IsNewInput = false;
+            }
+            else if (_calculator.DisplayText.Contains("."))
+            {
+               return;
+            }
+
+            UpdateDisplay();
+        }
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            _calculator.Clear();
+            UpdateDisplay();
+        }
+
+        private void ToggleAdvancedPanel_Click(object sender, RoutedEventArgs e)
         {
             _advancedPanelVisible = !_advancedPanelVisible;
             AdvancedPanel.Visibility = _advancedPanelVisible ? Visibility.Visible : Visibility.Collapsed;
