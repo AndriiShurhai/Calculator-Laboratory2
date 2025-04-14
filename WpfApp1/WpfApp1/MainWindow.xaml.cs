@@ -238,6 +238,28 @@ namespace CalculatorProject
             UpdateDisplay();
         }
 
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+            if (_undoStack.Count > 0)
+            {
+                ICommand command = _undoStack.Pop();
+                command.Undo();
+                _redoStack.Push(command);
+                UpdateDisplay();
+            }
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e)
+        {
+            if (_redoStack.Count > 0)
+            {
+                ICommand command = _redoStack.Pop();
+                command.Execute();
+                _undoStack.Push(command);
+                UpdateDisplay() ;
+            }
+        }
+
         private void ToggleAdvancedPanel_Click(object sender, RoutedEventArgs e)
         {
             _advancedPanelVisible = !_advancedPanelVisible;

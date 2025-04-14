@@ -16,7 +16,7 @@
         <Button x:Name="buttonToggleAdvance" Content=">>" Grid.Row="0" Grid.Column="0"
                 Margin="3" FontSize="18" Width="30" Height="30" HorizontalAlignment="Left" Click="ToggleAdvancedPanel_Click"/>
 
-        <Button x:Name="buttonRedo" Content="⟳" Grid.Row="0" Grid.Column="1" Margin="3" FontSize="18" Width="30" Height="30" HorizontalAlignment="Right"/>
+        <Button x:Name="buttonRedo" Content="⟳" Grid.Row="0" Grid.Column="1" Margin="3" FontSize="18" Width="30" Height="30" HorizontalAlignment="Right" Click="Redo_Click"/>
 
         <TextBox x:Name="txtDisplay" Grid.Row="1" Height="50" Margin="10"
                  FontSize="24" TextAlignment="Right" IsReadOnly="True"
@@ -39,7 +39,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="buttonCE" Content="CE" Grid.Row="0" Grid.Column="0" Margin="2" FontSize="18"/>
+            <Button x:Name="buttonCE" Content="CE" Grid.Row="0" Grid.Column="0" Margin="2" FontSize="18" Click="Undo_Click"/>
             <Button x:Name="buttonC" Content="C" Grid.Row="0" Grid.Column="1" Margin="2" FontSize="18" Click="ClearButton_Click"/>
 
             <Button x:Name="button7" Content="7" Grid.Row="1" Grid.Column="0" Margin="2" FontSize="18" Click="NumberButton_Click"/>
