@@ -20,6 +20,7 @@ namespace CalculatorProject
         private Calculator _calculator;
         private Stack<ICommand> _undoStack;
         private Stack<ICommand> _redoStack;
+        private bool _advancedPanelVisible;
 
         public MainWindow()
         {
@@ -35,6 +36,13 @@ namespace CalculatorProject
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             MessageBox.Show("key pressed");
+        }
+
+        private void ToggleAdvancedPanelClick(object sender, RoutedEventArgs e)
+        {
+            _advancedPanelVisible = !_advancedPanelVisible;
+            AdvancedPanel.Visibility = _advancedPanelVisible ? Visibility.Visible : Visibility.Collapsed;
+            buttonToggleAdvance.Content = _advancedPanelVisible ? "<<" : ">>";
         }
         private void UpdateDisplay()
         {

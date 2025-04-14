@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|solutionrelative:wpfapp1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|f:\\university\\second course\\secondsemester\\oop\\laboratory2\\wpfapp1\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|solutionrelative:wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|f:\\university\\second course\\secondsemester\\oop\\laboratory2\\wpfapp1\\wpfapp1\\calculationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|solutionrelative:wpfapp1\\calculationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|f:\\university\\second course\\secondsemester\\oop\\laboratory2\\wpfapp1\\wpfapp1\\calculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|solutionrelative:wpfapp1\\calculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|f:\\university\\second course\\secondsemester\\oop\\laboratory2\\wpfapp1\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6B544D3C-AD9B-4A95-A62C-1031F27A2925}|WpfApp1\\Calculator.csproj|solutionrelative:wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,20 +30,20 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CalculationCommand.cs",
               "DocumentMoniker": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\CalculationCommand.cs",
               "RelativeDocumentMoniker": "WpfApp1\\CalculationCommand.cs",
               "ToolTip": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\CalculationCommand.cs",
               "RelativeToolTip": "WpfApp1\\CalculationCommand.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA4wBMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAiwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T15:41:35.933Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Calculator.cs",
               "DocumentMoniker": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\Calculator.cs",
               "RelativeDocumentMoniker": "WpfApp1\\Calculator.cs",
@@ -51,12 +51,11 @@
               "RelativeToolTip": "WpfApp1\\Calculator.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAAwAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-13T15:34:33.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-13T15:34:33.13Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\MainWindow.xaml",
               "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml",
@@ -74,7 +73,7 @@
               "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml.cs",
               "ToolTip": "F:\\University\\Second course\\SecondSemester\\OOP\\Laboratory2\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
               "RelativeToolTip": "WpfApp1\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACQAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwCwAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-02T16:19:14.422Z",
               "EditorCaption": ""
