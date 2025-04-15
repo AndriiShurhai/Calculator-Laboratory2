@@ -69,7 +69,7 @@ namespace CalculatorProject
                     ClearButton_Click(buttonC, new RoutedEventArgs());
                     break;
                 case Key.Back:
-                    EraseSymbol_Click(button_Backspace, new RoutedEventArgs());
+                    EraseSymbol_Click(buttonBackspace, new RoutedEventArgs());
                     break;
                 case Key.OemPeriod:
                 case Key.Decimal:
@@ -263,6 +263,7 @@ namespace CalculatorProject
         private void ToggleAdvancedPanel_Click(object sender, RoutedEventArgs e)
         {
             _advancedPanelVisible = !_advancedPanelVisible;
+            grid.ColumnDefinitions.ElementAt(1).Width = _advancedPanelVisible ? new GridLength(60) : GridLength.Auto;
             AdvancedPanel.Visibility = _advancedPanelVisible ? Visibility.Visible : Visibility.Collapsed;
             buttonToggleAdvance.Content = _advancedPanelVisible ? "<<" : ">>";
         }
