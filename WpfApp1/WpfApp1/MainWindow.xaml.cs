@@ -92,6 +92,12 @@ namespace CalculatorProject
                 MessageBox.Show("Number in HandleNumberInput method is null");
                 return;
             }
+
+            if (_calculator.Error)
+            {
+                _calculator.ClearError();
+            }
+
             if (_calculator.IsNewInput)
             {
                 _calculator.DisplayText = number;
@@ -115,7 +121,7 @@ namespace CalculatorProject
             }
             else
             {
-                MessageBox.Show("Can't parse this number");
+                _calculator.SetError("Invalid Input");
                 return;
             }
             UpdateDisplay();
@@ -157,14 +163,32 @@ namespace CalculatorProject
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(_calculator.PendingOperation) || !_calculator.IsNewInput)
+            if (_calculator.Error)
+            {
+                _calculator.ClearError();
+                return;
+            }
+
+            if (!double.TryParse(_calculator.DisplayText, out double parseResult)) return;
+
+            if (!string.IsNullOrEmpty(_calculator.PendingOperation) && !_calculator.IsNewInput)
             {
                 EqualsButton_Click(null, null);
             }
 
-            _calculator.PreviousValue = _calculator.CurrentValue;
-            _calculator.PendingOperation = ((Button)sender).Tag.ToString();
-            _calculator.IsNewInput = true;
+            Button? button = sender as Button;
+
+            if (button != null)
+            {
+
+                _calculator.PreviousValue = _calculator.CurrentValue;
+                _calculator.CurrentValue = 0;
+                _calculator.PendingOperation = button.Tag.ToString();
+                _calculator.PrevDisplayText = $"{_calculator.PreviousValue} {_calculator.PendingOperation}";
+                _calculator.IsNewInput = true;
+            }
+
+            UpdateDisplay();
         }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
@@ -180,32 +204,25 @@ namespace CalculatorProject
             double previousValue = _calculator.PreviousValue;
             double currentValue = _calculator.CurrentValue;
             string operation = _calculator.PendingOperation;
-            double result = 0;
+            string displayBeforeOperation = _calculator.DisplayText;
+            string prevDisplayBeforeOperation = txtOperationIndicator.Text;
 
-            switch (operation)
+            double result = _calculator.PerformOperation(operation, previousValue, currentValue);
+
+            if (_calculator.Error)
             {
-                case "+":
-                    result = previousValue + currentValue;
-                    break;
-                case "-":
-                    result = previousValue - currentValue;
-                    break;
-                case "*":
-                    result = previousValue * currentValue;
-                    break;
-                case "/":
-                    result = previousValue / currentValue;
-                    break;
+                UpdateDisplay();
+                return;
             }
 
-            ICommand command = new CalculationCommand(_calculator, previousValue, currentValue, operation, result);
+            ICommand command = new CalculationCommand(_calculator, previousValue, currentValue, operation, result, displayBeforeOperation, prevDisplayBeforeOperation);
             command.Execute();
 
             _undoStack.Push(command);
             _redoStack.Clear();
 
             _calculator.PendingOperation = "";
-            _calculator.IsNewInput = true;
+            //_calculator.IsNewInput = true;
 
             UpdateDisplay();
         }
@@ -269,7 +286,35 @@ namespace CalculatorProject
         }
         private void UpdateDisplay()
         {
+            if (_calculator.Error)
+            {
+                txtDisplay.Text = _calculator.ErrorMessage;
+                return;
+            }
+     
             txtDisplay.Text = _calculator.DisplayText;
-        }
+
+            if (!string.IsNullOrEmpty(_calculator.PendingOperation))
+            {
+                if (string.IsNullOrEmpty(_calculator.PrevDisplayText))
+                {
+                    txtOperationIndicator.Text = $"{_calculator.PreviousValue} {_calculator.PendingOperation}";
+                    txtOperationIndicator.Visibility = Visibility.Visible;
+
+                    _calculator.PrevDisplayText = txtOperationIndicator.Text ;
+                }
+                else
+                {
+                    txtOperationIndicator.Text = _calculator.PrevDisplayText;
+                    txtOperationIndicator.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                txtOperationIndicator.Visibility = Visibility.Collapsed;
+            }
+
+            debugPanel.Text = $"{_calculator.PreviousValue} {_calculator.CurrentValue} {_calculator.PendingOperation}";
+}
     }
 }

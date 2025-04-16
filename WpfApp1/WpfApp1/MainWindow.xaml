@@ -20,8 +20,11 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <TextBlock x:Name="debugPanel" Grid.Row="0" Text="debug" FontSize="12"/>
+
             <Button x:Name="buttonToggleAdvance" Content=">>" Grid.Row="1" Grid.Column="0" Margin="2" FontSize="18" 
                     Width="30" HorizontalAlignment="Left" Click="ToggleAdvancedPanel_Click"/>
+            
 
             <TextBlock x:Name="txtOperationIndicator" Grid.Row="1" Text="helloooooooo" FontSize="12" 
                        HorizontalAlignment="Right" Visibility="Visible" Margin="0, 0, 5, 0"/>
@@ -103,7 +106,7 @@
                         Click="NumberButton_Click"/>
                 <Button x:Name="buttonDecimal" Content="." Grid.Row="4" Grid.Column="2" Margin="2" 
                         Click="DecimalButton_Click"/>
-                <Button x:Name="buttonEquals" Content="=" Tag="+" Grid.Row="4" Grid.Column="3" Margin="2" 
+                <Button x:Name="buttonEquals" Content="=" Tag="=" Grid.Row="4" Grid.Column="3" Margin="2" 
                         Background="#4CAF50" Foreground="White" Click="EqualsButton_Click"/>
 
             </Grid>
