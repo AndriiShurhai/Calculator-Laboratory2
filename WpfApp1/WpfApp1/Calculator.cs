@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows;
 using System.Windows.Media;
 
 namespace CalculatorProject
@@ -80,5 +83,49 @@ namespace CalculatorProject
                 return 0;
             }
         }
+
+        public double PerformScientificOperation(string operation)
+        {
+            try
+            {
+                switch (operation)
+                {
+                    case "sqrt":
+                        if (CurrentValue < 0)
+                        {
+                            SetError("Cannot calculate square root of negative number");
+                            return 0;
+                        }
+                        return Math.Sqrt(CurrentValue);
+
+                    case "log":
+                        if (CurrentValue <= 0)
+                        {
+                            SetError("Cannot calculate logarithm of zero or negative number");
+                            return 0;
+                        }
+                        return Math.Log10(CurrentValue);
+                    case "ln":
+                        if (CurrentValue <= 0)
+                        {
+                            SetError("Cannot calculate natural logarithm of zero or negative number");
+                            return 0;
+                        }
+                        return Math.Log(CurrentValue);
+
+                    case "pow":
+                        return Math.Pow(CurrentValue, 2);
+
+                    default:
+                        return CurrentValue;
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError($"Error: {ex.Message}");
+                return 0;
+            }
+        }
+
     }
 }

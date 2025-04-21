@@ -125,11 +125,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="buttonPI" Content="Pi" Grid.Row="0" Grid.Column="0" Margin="2" FontSize="18"/>
-                <Button x:Name="buttonExponent" Content="e" Grid.Row="1" Grid.Column="0" Margin="2" FontSize="18"/>
-                <Button x:Name="buttonSqrt" Content="√" Grid.Row="2"  Grid.Column="0" Margin="2" FontSize="18"/>
-                <Button x:Name="buttonPower" Content="x²" Grid.Row="3" Grid.Column="0" Margin="2" FontSize="18"/>
-                <Button x:Name="buttonLn" Content="ln" Grid.Row="4" Grid.Column="0" Margin="2" FontSize="18"/>
+                <Button x:Name="buttonPI" Content="Pi" Tag ="Pi" Grid.Row="0" Grid.Column="0" Margin="2" FontSize="18" Click="NumberButton_Click"/>
+                <Button x:Name="buttonExponent" Content="e" Tag="exp" Grid.Row="1" Grid.Column="0" Margin="2" FontSize="18" Click="NumberButton_Click"/>
+                <Button x:Name="buttonSqrt" Content="√" Tag="sqrt" Grid.Row="2"  Grid.Column="0" Margin="2" FontSize="18" Click="ScientificButton_Click"/>
+                <Button x:Name="buttonPower" Content="x²" Tag="pow" Grid.Row="3" Grid.Column="0" Margin="2" FontSize="18" Click="ScientificButton_Click"/>
+                <Button x:Name="buttonLn" Content="ln" Tag ="ln" Grid.Row="4" Grid.Column="0" Margin="2" FontSize="18" Click="ScientificButton_Click"/>
             </Grid>
         </Grid>
     </Grid>

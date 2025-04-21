@@ -13,9 +13,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CalculatorProject
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Calculator _calculator;
@@ -30,41 +27,51 @@ namespace CalculatorProject
             _undoStack = new Stack<ICommand>();
             _redoStack = new Stack<ICommand>();
 
+            _undoStack.Push(new CalculationCommand(_calculator, 0, 0, "", 0, "0", "0"));
             UpdateDisplay();
 
             KeyDown += MainWindow_KeyDown;
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key >= Key.D0 && e.Key <= Key.D9)
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
             {
-                HandleNumberInput((e.Key - Key.D0).ToString());
+                int digit;
+                if (e.Key >= Key.D0 && e.Key <= Key.D9)
+                    digit = e.Key - Key.D0;
+                else
+                    digit = e.Key - Key.NumPad0;
+
+                HandleNumberInput(digit.ToString());
                 return;
             }
 
             switch (e.Key)
             {
                 case Key.Add:
-                    OperationButton_Click(buttonPlus, new RoutedEventArgs(null, null));
+                    OperationButton_Click(buttonPlus, new RoutedEventArgs());
                     break;
                 case Key.Subtract:
-                    MessageBox.Show("Substract");
+                    OperationButton_Click(buttonMinus, new RoutedEventArgs());
                     break;
                 case Key.Multiply:
-                    MessageBox.Show("Multiply");
+                    OperationButton_Click(buttonMultiply, new RoutedEventArgs());
                     break;
                 case Key.Divide:
-                    MessageBox.Show("Divide");
+                    OperationButton_Click(buttonDivide, new RoutedEventArgs());
                     break;
                 case Key.Enter:
-                    MessageBox.Show("Equals");
+                    EqualsButton_Click(buttonEquals, new RoutedEventArgs());
                     break;
                 case Key.OemPlus:
                     if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
-                        MessageBox.Show("Addition");
+                        OperationButton_Click(buttonPlus, new RoutedEventArgs());
                     else
-                        MessageBox.Show("Equals");
-                        break;
+                        EqualsButton_Click(buttonEquals, new RoutedEventArgs());
+                    break;
+                case Key.OemMinus:
+                    MinusButton_Click(buttonMinus, new RoutedEventArgs());
+                    break;
                 case Key.Escape:
                     ClearButton_Click(buttonC, new RoutedEventArgs());
                     break;
@@ -75,6 +82,14 @@ namespace CalculatorProject
                 case Key.Decimal:
                     DecimalButton_Click(buttonDecimal, new RoutedEventArgs());
                     break;
+                case Key.Z:
+                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                        Undo_Click(null, new RoutedEventArgs());
+                    break;
+                case Key.Y:
+                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                        Redo_Click(null, new RoutedEventArgs());
+                    break;
             }
         }
 
@@ -82,6 +97,15 @@ namespace CalculatorProject
         {
             Button button = (Button)sender;
             string? number = button.Content.ToString();
+
+            if (number == "Pi")
+            {
+                number = Convert.ToString(Math.PI);
+            }
+            if (number == "e")
+            {
+                number = Convert.ToString(Math.E);
+            }
             HandleNumberInput(number);
         }
 
@@ -96,6 +120,7 @@ namespace CalculatorProject
             if (_calculator.Error)
             {
                 _calculator.ClearError();
+                UpdateDisplay();
             }
 
             if (_calculator.IsNewInput)
@@ -122,6 +147,7 @@ namespace CalculatorProject
             else
             {
                 _calculator.SetError("Invalid Input");
+                UpdateDisplay();
                 return;
             }
             UpdateDisplay();
@@ -166,6 +192,7 @@ namespace CalculatorProject
             if (_calculator.Error)
             {
                 _calculator.ClearError();
+                UpdateDisplay();
                 return;
             }
 
@@ -187,6 +214,40 @@ namespace CalculatorProject
                 _calculator.PrevDisplayText = $"{_calculator.PreviousValue} {_calculator.PendingOperation}";
                 _calculator.IsNewInput = true;
             }
+
+            UpdateDisplay();
+        }
+
+        private void ScientificButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_calculator.Error)
+            {
+                _calculator.ClearError();
+                UpdateDisplay();
+                return;
+            }
+
+            Button button = sender as Button;
+            if (button == null) return;
+
+            string operation = button.Tag.ToString();
+            double previousValue = _calculator.CurrentValue;
+
+            double result = _calculator.PerformScientificOperation(operation);
+
+            if (_calculator.Error)
+            {
+                UpdateDisplay();
+                return;
+            }
+
+            ICommand command = new ScientificCommand(_calculator, previousValue, operation, result);
+            command.Execute();
+
+            _undoStack.Push(command);
+            _redoStack.Clear();
+
+            _calculator.IsNewInput = true;
 
             UpdateDisplay();
         }
@@ -259,6 +320,10 @@ namespace CalculatorProject
         {
             if (_undoStack.Count > 0)
             {
+                if (_calculator.Error)
+                {
+                    _calculator.ClearError();
+                }
                 ICommand command = _undoStack.Pop();
                 command.Undo();
                 _redoStack.Push(command);
@@ -270,6 +335,11 @@ namespace CalculatorProject
         {
             if (_redoStack.Count > 0)
             {
+                if (_calculator.Error)
+                {
+                    _calculator.ClearError();
+                }
+
                 ICommand command = _redoStack.Pop();
                 command.Execute();
                 _undoStack.Push(command);
