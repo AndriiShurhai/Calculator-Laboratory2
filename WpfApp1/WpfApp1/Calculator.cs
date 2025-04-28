@@ -73,6 +73,8 @@ namespace CalculatorProject
                         return firstOperand / secondOperand;
                     case "pow":
                         return Math.Pow(firstOperand, secondOperand);
+                    case "%":
+                        return firstOperand % secondOperand;
                     default:
                         return 0;
                 }

@@ -67,7 +67,8 @@
                 
                 <Button x:Name="buttonC" Content="C" Grid.Row="0" Grid.Column="0" Margin="2"
                         Click="ClearButton_Click"/>
-                <Button x:Name="buttonPercent" Content="%" Grid.Row="0" Grid.Column="1" Margin="2"/>
+                <Button x:Name="buttonPercent" Content="%" Tag="%" Grid.Row="0" Grid.Column="1" Margin="2"
+                        Click="OperationButton_Click"/>
                 <Button x:Name="buttonBackspace" Content="⌫" Grid.Row="0" Grid.Column="2" Margin="2" 
                         Click="EraseSymbol_Click"/>
                 <Button x:Name="buttonDivide" Content="÷" Tag="/" Grid.Row="0" Grid.Column="3" Margin="2" 

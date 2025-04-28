@@ -1,15 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CalculatorProject
 {
@@ -96,20 +88,24 @@ namespace CalculatorProject
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            string? number = button.Content.ToString();
+            string? content = button.Content.ToString();
+            bool isConstant = false;
 
-            if (number == "Pi")
+            if (content == "Pi")
             {
-                number = Convert.ToString(Math.PI);
+                content = Math.PI.ToString(CultureInfo.InvariantCulture);
+                isConstant = true;
             }
-            if (number == "e")
+            else if (content == "e")
             {
-                number = Convert.ToString(Math.E);
+                content = Math.E.ToString(CultureInfo.InvariantCulture);
+                isConstant = true;
             }
-            HandleNumberInput(number);
+
+            HandleNumberInput(content, isConstant);
         }
 
-        private void HandleNumberInput(string? number)
+        private void HandleNumberInput(string? number, bool isConstant = false)
         {
             if (number == null)
             {
@@ -123,7 +119,7 @@ namespace CalculatorProject
                 UpdateDisplay();
             }
 
-            if (_calculator.IsNewInput)
+            if (isConstant || _calculator.IsNewInput)
             {
                 _calculator.DisplayText = number;
                 _calculator.IsNewInput = false;
@@ -147,8 +143,6 @@ namespace CalculatorProject
             else
             {
                 _calculator.SetError("Invalid Input");
-                UpdateDisplay();
-                return;
             }
             UpdateDisplay();
         }
@@ -283,7 +277,7 @@ namespace CalculatorProject
             _redoStack.Clear();
 
             _calculator.PendingOperation = "";
-            //_calculator.IsNewInput = true;
+            _calculator.IsNewInput = true;  
 
             UpdateDisplay();
         }
@@ -361,30 +355,22 @@ namespace CalculatorProject
                 txtDisplay.Text = _calculator.ErrorMessage;
                 return;
             }
-     
+
             txtDisplay.Text = _calculator.DisplayText;
 
             if (!string.IsNullOrEmpty(_calculator.PendingOperation))
             {
-                if (string.IsNullOrEmpty(_calculator.PrevDisplayText))
-                {
-                    txtOperationIndicator.Text = $"{_calculator.PreviousValue} {_calculator.PendingOperation}";
-                    txtOperationIndicator.Visibility = Visibility.Visible;
-
-                    _calculator.PrevDisplayText = txtOperationIndicator.Text ;
-                }
-                else
-                {
-                    txtOperationIndicator.Text = _calculator.PrevDisplayText;
-                    txtOperationIndicator.Visibility = Visibility.Visible;
-                }
+                txtOperationIndicator.Text = $"{_calculator.PreviousValue} {_calculator.PendingOperation}";
+                txtOperationIndicator.Visibility = Visibility.Visible;
+                _calculator.PrevDisplayText = txtOperationIndicator.Text;
             }
             else
             {
                 txtOperationIndicator.Visibility = Visibility.Collapsed;
+                _calculator.PrevDisplayText = "";  
             }
 
             debugPanel.Text = $"{_calculator.PreviousValue} {_calculator.CurrentValue} {_calculator.PendingOperation}";
-}
+        }
     }
 }
